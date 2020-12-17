@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -L ./task-manager/index.js"
+    "start": "env-cmd -f ./task-manager/.env nodemon -L ./task-manager/index.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/ZukaGap/testAPI#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.0",
     "bcryptjs": "^2.4.3",
+    "env-cmd": "^10.1.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.3",
