@@ -3,6 +3,7 @@ const multer = require("multer");
 const sharp = require("sharp");
 const User = require("../models/user");
 const auth = require("../middleware/auth");
+const { sendWelcomeEmail, sendDeleteAccount } = require("../emails/account");
 const router = new express.Router();
 
 router.post("/users", async (req, res) => {
@@ -10,6 +11,7 @@ router.post("/users", async (req, res) => {
 
   try {
     await user.save();
+    sendWelcomeEmail(user.email, user.name);
     const token = await user.generateAuthToken();
     res.status(201).send({ user, token });
   } catch (error) {
@@ -76,7 +78,7 @@ router.patch("/users/me", auth, async (req, res) => {
   );
 
   if (!isValidOperation) {
-    return res.status(400).send({ error: "Invalide Updates!" });
+    return res.status(400).send({ error: "Invalid Updates!" });
   }
 
   try {
@@ -91,6 +93,7 @@ router.patch("/users/me", auth, async (req, res) => {
 router.delete("/users/me", auth, async (req, res) => {
   try {
     await req.user.remove();
+    sendDeleteAccount(req.user.email, req.user.name);
     res.send(req.user);
   } catch (error) {
     res.status(500).send();

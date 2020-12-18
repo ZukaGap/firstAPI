@@ -1,0 +1,385 @@
+swagger: "1.0"
+info:
+  description: "create Users & Tasks."
+  version: "1.0.0"
+  title: "firstAPI Docs"
+  # termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "zurabigaprindashvili@gmail.com"
+# host: "petstore.swagger.io"
+basePath: "/v2"
+tags:
+  - name: "users"
+    description: "Operations about user"
+  - name: "tasks"
+    description: "Access to Tasks"
+schemes:
+  - "https"
+  - "http"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+paths:
+  /users:
+    post:
+      tags:
+        - "users"
+      summary: "Create user"
+      description: "This can only be done by the logged in user."
+      operationId: "createUser"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Created user object"
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        default:
+          description: "successful operation"
+  /users/login:
+    post:
+      tags:
+        - "users"
+      summary: "User login"
+      description: "Authentication"
+      operationId: "createUsersWithArrayInput"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "List of user object"
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        "200":
+          description: "Return user info & token"
+        default:
+          description: "successful operation"
+  /users/logout:
+    post:
+      tags:
+        - "users"
+      summary: "Logout from user"
+      description: "This endpoint delete token from database."
+      operationId: "createUsersWithListInput"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: "Successful logout user."
+        "401":
+          description: "You do not have token"
+  /users/logoutAll:
+    post:
+      tags:
+        - "users"
+      summary: "Logout every device"
+      description: "Logout your account from every device."
+      operationId: "createUsersWithListInput"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: "Successful logout user."
+        "401":
+          description: "You do not have token"
+  /users/me:
+    get:
+      tags:
+        - "users"
+      summary: "Your user info"
+      description: "Something about your user."
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: "Successful logout user."
+        "404":
+          description: "User not found."
+    patch:
+      tags:
+        - "users"
+      summary: "Update user"
+      description: "Update account info."
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "List of user object"
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+              age:
+                type: number
+      responses:
+        "200":
+          description: "Successful logout user."
+        "400":
+          description: "Invalid Updates!"
+    delete:
+      tags:
+        - "users"
+      summary: "Delete your account"
+      description: ""
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: "Successful removed account."
+        "500":
+          description: "Server error."
+  /users/{id}:
+    get:
+      tags:
+        - "users"
+      summary: "Get user by user id"
+      description: ""
+      operationId: "getUserByName"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The ID that needs to be fetched."
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "successful operation."
+        "400":
+          description: "Invalid username supplied."
+        "404":
+          description: "User not found."
+  /users/me/avatar:
+    post:
+      tags:
+        - "users"
+      summary: "Upload user avatar"
+      description: ""
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "formData"
+          name: "avatar"
+          description: "file to upload"
+          required: true
+          type: "file"
+      responses:
+        "200":
+          description: "successful operation."
+    delete:
+      tags:
+        - "users"
+      summary: "Delete user avatar"
+      description: ""
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: "successful operation."
+  /users/{id}/avatar:
+    get:
+      tags:
+        - "users"
+      summary: "Get user avatar by user id"
+      description: ""
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The ID that needs to be fetched."
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Successful operation."
+        "404":
+          description: "User not found."
+  /tasks:
+    post:
+      tags:
+        - "tasks"
+      summary: "Create new task"
+      description: ""
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "body"
+          required: false
+          schema:
+            type: object
+            properties:
+              description:
+                type: string
+              completed:
+                type: boolean
+      responses:
+        "201":
+          description: "Successful added new task."
+        "400":
+          description: "Auth error."
+    get:
+      tags:
+        - "tasks"
+      summary: "Read all tasks"
+      description: ""
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        "200":
+          description: "Successful request."
+        "500":
+          description: "Server error."
+  /tasks/my:
+    get:
+      tags:
+        - "tasks"
+      summary: "Read your tasks only"
+      description: "Tasks pagination"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "path"
+          name: "limit"
+          description: "How many task show one request"
+          required: false
+          type: string
+        - in: "path"
+          name: "skip"
+          description: "How many pages skipped"
+          required: false
+          type: string
+        - in: "path"
+          name: "completed"
+          description: "Tasks condition"
+          required: false
+          type: string
+        - in: "path"
+          name: "sortBy"
+          description: "Sorting with time.(asc or desc)"
+          required: false
+          type: string
+      responses:
+        "201":
+          description: "Successful request."
+        "500":
+          description: "Server error."
+  /tasks/{id}:
+    get:
+      tags:
+        - "tasks"
+      summary: "Get user tasks by user id"
+      description: ""
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The ID that needs to be fetched."
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "successful operation."
+        "404":
+          description: "Task not found."
+    patch:
+      tags:
+        - "tasks"
+      summary: "Update user tasks by user id"
+      description: ""
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The ID that needs to be fetched."
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          required: false
+          schema:
+            type: object
+            properties:
+              description:
+                type: string
+              completed:
+                type: boolean
+      responses:
+        "200":
+          description: "successful operation."
+        "400":
+          description: "Invalid updates."
+    delete:
+      tags:
+        - "tasks"
+      summary: "Delete user tasks by task id"
+      description: ""
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The ID that needs to be fetched."
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "successful operation."
+        "404":
+          description: "Current task not found."

@@ -1,25 +1,22 @@
 const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-console.log(process.env.SENDGRID_API_KEY);
-sgMail.setApiKey(
-  "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"
-);
-
-const msg = {
-  to: "zuka.gaprindashvili@gmail.com", //sabamchedlishvili47@gmail.com
-  from: "zuka.gaprindashvili@gmail.com",
-  subject: "Dear Saba",
-  text: "Hello, How are you ?",
+const sendWelcomeEmail = (email, name) => {
+  sgMail.send({
+    to: email,
+    from: "zuka.gaprindashvili@gmail.com",
+    subject: "Thanks for joining in !!!",
+    text: `Welcome, ${name}.`,
+  });
 };
 
-sgMail
-  .send(msg)
-  .then(() => {
-    console.log("email sent");
-  })
-  .catch((error) => {
-    console.log(error);
+const sendDeleteAccount = (email, name) => {
+  sgMail.send({
+    to: email,
+    from: "zuka.gaprindashvili@gmail.com",
+    subject: "Cancellation Account",
+    text: `Goodbye, ${name}.`,
   });
+};
 
-
-  systemctl restart nginx
+module.exports = { sendWelcomeEmail, sendDeleteAccount };
