@@ -287,22 +287,22 @@ paths:
       security:
         - Bearer: []
       parameters:
-        - in: "path"
+        - in: "query"
           name: "limit"
           description: "How many task show one request"
           required: false
           type: string
-        - in: "path"
+        - in: "query"
           name: "skip"
           description: "How many pages skipped"
           required: false
           type: string
-        - in: "path"
+        - in: "query"
           name: "completed"
           description: "Tasks condition"
           required: false
           type: string
-        - in: "path"
+        - in: "query"
           name: "sortBy"
           description: "Sorting with time.(asc or desc)"
           required: false
